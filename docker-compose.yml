@@ -9,6 +9,8 @@ services:
         JAR_FILE: ${JAR_FILE}
     ports:
       - "${APP_PORT}:8080"
+    networks:
+      main:
 
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.1
@@ -21,6 +23,8 @@ services:
       - --import-realm
     ports:
       - "${KEYCLOAK_PORT}:8080"
+    networks:
+      main:
     volumes:
       - ./docker/keycloak/realm.json:/opt/keycloak/data/import/realm.json
     depends_on:
@@ -39,6 +43,10 @@ services:
       - POSTGRES_PASSWORD=${AUTH_DB_PASSWORD}
       - POSTGRES_USER=${AUTH_DB_USER}
       - POSTGRES_DB=${AUTH_DB_NAME}
+
+networks:
+  main:
+    driver: bridge
 
 volumes:
   postgres-auth:
