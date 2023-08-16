@@ -13,7 +13,7 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectRepository projectRepository;
 
     @Override
-    public Project save(String name, String prefix, int startingNumber, String description, String ownerId) {
-        return projectRepository.save(new Project(name, prefix, startingNumber, description, ownerId));
+    public Project save(Project project) {
+        return projectRepository.save(project);
     }
 }

@@ -3,6 +3,6 @@ CREATE TABLE IF NOT EXISTS projects (
     name VARCHAR NOT NULL,
     prefix VARCHAR NOT NULL,
     starting_number INTEGER NOT NULL,
-    description TEXT NOT NULL,
+    description TEXT,
     owner_id VARCHAR NOT NULL
 )

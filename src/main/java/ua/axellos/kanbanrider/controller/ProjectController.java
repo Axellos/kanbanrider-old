@@ -3,6 +3,7 @@ package ua.axellos.kanbanrider.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.axellos.kanbanrider.model.Project;
 import ua.axellos.kanbanrider.service.ProjectService;
@@ -18,12 +19,9 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<Project> createProject(@RequestParam String name
-            , @RequestParam String prefix
-            , @RequestParam(name = "starting_number") int startingNumber
-            , @RequestParam String description) {
-        String ownerId = SecurityContextHolder.getContext().getAuthentication().getName();
-        Project project = projectService.save(name, prefix, startingNumber, description, ownerId);
+    public ResponseEntity<Project> createProject(@RequestBody @Validated Project project) {
+        project.setOwnerId(SecurityContextHolder.getContext().getAuthentication().getName());
+        projectService.save(project);
 
         return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
