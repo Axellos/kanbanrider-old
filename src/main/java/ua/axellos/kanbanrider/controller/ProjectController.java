@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ua.axellos.kanbanrider.model.Project;
 import ua.axellos.kanbanrider.service.ProjectService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectController {
@@ -24,5 +26,12 @@ public class ProjectController {
         projectService.save(project);
 
         return new ResponseEntity<>(project, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Project>> getAllOwnProjects() {
+        List<Project> projects = projectService.findAllByOwnerId(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 }

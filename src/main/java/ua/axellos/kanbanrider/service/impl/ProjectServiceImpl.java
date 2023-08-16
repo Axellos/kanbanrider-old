@@ -6,6 +6,8 @@ import ua.axellos.kanbanrider.repository.ProjectRepository;
 import ua.axellos.kanbanrider.service.ProjectService;
 import ua.axellos.kanbanrider.model.Project;
 
+import java.util.List;
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
@@ -15,5 +17,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project save(Project project) {
         return projectRepository.save(project);
+    }
+
+    @Override
+    public List<Project> findAllByOwnerId(String ownerId) {
+        return projectRepository.findAllByOwnerId(ownerId);
     }
 }
