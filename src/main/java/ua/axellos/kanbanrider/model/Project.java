@@ -1,32 +1,38 @@
 package ua.axellos.kanbanrider.model;
 
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "projects")
 public class Project extends BaseEntity {
 
+    @Size(max = 255)
+    @NotNull
+    @NotBlank
     private String name;
 
     private String ownerId;
 
+    @NotNull
+    @NotBlank
     private String prefix;
 
-    private int startingNumber;
+    @NotNull
+    @Min(1)
+    private Integer startingNumber;
 
+    @Size(max = 2000)
     private String description;
-
-    public Project(String name, String prefix, int startingNumber, String description, String ownerId) {
-        this.name = name;
-        this.prefix = prefix;
-        this.startingNumber = startingNumber;
-        this.description = description;
-        this.ownerId = ownerId;
-    }
 
     public String getName() {
         return name;
