@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS projects (
     starting_number INTEGER NOT NULL,
     description TEXT,
     owner_id VARCHAR NOT NULL
-)
+);
