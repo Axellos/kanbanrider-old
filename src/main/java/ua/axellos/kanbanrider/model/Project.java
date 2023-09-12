@@ -16,22 +16,14 @@ import javax.validation.constraints.Size;
 @Table(name = "projects")
 public class Project extends BaseEntity {
 
-    @Size(max = 255)
-    @NotNull
-    @NotBlank
     private String name;
 
     private String ownerId;
 
-    @NotNull
-    @NotBlank
     private String prefix;
 
-    @NotNull
-    @Min(1)
     private Integer startingNumber;
 
-    @Size(max = 2000)
     private String description;
 
     public String getName() {

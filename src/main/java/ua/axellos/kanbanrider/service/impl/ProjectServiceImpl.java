@@ -2,6 +2,8 @@ package ua.axellos.kanbanrider.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.axellos.kanbanrider.dto.ProjectDto;
+import ua.axellos.kanbanrider.dto.mapper.ProjectMapper;
 import ua.axellos.kanbanrider.repository.ProjectRepository;
 import ua.axellos.kanbanrider.service.ProjectService;
 import ua.axellos.kanbanrider.model.Project;
@@ -15,7 +17,10 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectRepository projectRepository;
 
     @Override
-    public Project save(Project project) {
+    public Project save(ProjectDto projectDto, String ownerId) {
+        Project project = ProjectMapper.INSTANCE.projectDtoToProject(projectDto);
+        project.setOwnerId(ownerId);
+
         return projectRepository.save(project);
     }
 

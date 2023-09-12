@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ua.axellos.kanbanrider.dto.ProjectDto;
+import ua.axellos.kanbanrider.dto.mapper.ProjectMapper;
 import ua.axellos.kanbanrider.model.Project;
 import ua.axellos.kanbanrider.service.ProjectService;
 
@@ -21,17 +23,19 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<Project> createProject(@RequestBody @Validated Project project) {
-        project.setOwnerId(SecurityContextHolder.getContext().getAuthentication().getName());
-        projectService.save(project);
+    public ResponseEntity<ProjectDto> createProject(@RequestBody @Validated ProjectDto projectDto) {
+        String ownerId = SecurityContextHolder.getContext().getAuthentication().getName();
+        projectService.save(projectDto, ownerId);
 
-        return new ResponseEntity<>(project, HttpStatus.CREATED);
+        return new ResponseEntity<>(projectDto, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Project>> getAllOwnProjects() {
-        List<Project> projects = projectService.findAllByOwnerId(SecurityContextHolder.getContext().getAuthentication().getName());
+    public ResponseEntity<List<ProjectDto>> getAllOwnProjects() {
+        List<Project> projects = projectService.findAllByOwnerId(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+        );
 
-        return new ResponseEntity<>(projects, HttpStatus.OK);
+        return new ResponseEntity<>(ProjectMapper.INSTANCE.map(projects), HttpStatus.OK);
     }
 }

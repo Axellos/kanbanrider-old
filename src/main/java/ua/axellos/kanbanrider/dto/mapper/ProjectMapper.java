@@ -5,6 +5,8 @@ import org.mapstruct.factory.Mappers;
 import ua.axellos.kanbanrider.dto.ProjectDto;
 import ua.axellos.kanbanrider.model.Project;
 
+import java.util.List;
+
 @Mapper
 public interface ProjectMapper {
 
@@ -12,5 +14,7 @@ public interface ProjectMapper {
 
     ProjectDto projectToProjectDto(Project project);
 
-    Project projectDtoToEntity(ProjectDto projectDto);
+    Project projectDtoToProject(ProjectDto projectDto);
+
+    List<ProjectDto> map(List<Project> projects);
 }
