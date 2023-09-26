@@ -7,7 +7,11 @@ import java.util.List;
 
 public interface ProjectService {
 
-    Project save(ProjectDto project, String ownerId);
+    Project findById(Long id);
 
     List<Project> findAllByOwnerId(String ownerId);
+
+    Project create(ProjectDto project, String ownerId);
+
+    Project updateById(Long id, ProjectDto projectDto);
 }

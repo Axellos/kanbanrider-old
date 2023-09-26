@@ -1,6 +1,9 @@
 package ua.axellos.kanbanrider.dto.mapper;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 import ua.axellos.kanbanrider.dto.ProjectDto;
 import ua.axellos.kanbanrider.model.Project;
@@ -17,4 +20,7 @@ public interface ProjectMapper {
     Project projectDtoToProject(ProjectDto projectDto);
 
     List<ProjectDto> map(List<Project> projects);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateProjectFromProjectDto(ProjectDto projectDto, @MappingTarget Project project);
 }
