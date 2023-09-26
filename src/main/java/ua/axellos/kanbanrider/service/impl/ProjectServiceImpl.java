@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.axellos.kanbanrider.dto.ProjectDto;
 import ua.axellos.kanbanrider.dto.mapper.ProjectMapper;
 import ua.axellos.kanbanrider.exception.ModelNotFoundException;
+import ua.axellos.kanbanrider.exception.ProjectNameIsUsedException;
 import ua.axellos.kanbanrider.repository.ProjectRepository;
 import ua.axellos.kanbanrider.service.ProjectService;
 import ua.axellos.kanbanrider.model.Project;
@@ -31,9 +32,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project create(ProjectDto projectDto, String ownerId) {
+        checkIfProjectNameUniqueForOwner(projectDto.getName(), ownerId);
         Project project = ProjectMapper.INSTANCE.projectDtoToProject(projectDto);
         project.setOwnerId(ownerId);
-
         return projectRepository.save(project);
     }
 
@@ -41,8 +42,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public Project updateById(Long id, ProjectDto projectDto) {
         Project project = findById(id);
+        if (! projectDto.getName().equals(project.getName())) {
+            checkIfProjectNameUniqueForOwner(projectDto.getName(), project.getOwnerId());
+        }
         ProjectMapper.INSTANCE.updateProjectFromProjectDto(projectDto, project);
 
         return projectRepository.save(project);
+    }
+
+    private void checkIfProjectNameUniqueForOwner(String name, String ownerId) {
+        if (projectRepository.existsByNameAndOwnerId(name, ownerId)) {
+            throw new ProjectNameIsUsedException("Project with name " + name + " already exists");
+        }
     }
 }
