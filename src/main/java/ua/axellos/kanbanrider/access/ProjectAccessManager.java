@@ -11,15 +11,11 @@ public class ProjectAccessManager {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public boolean canAccess(Long projectId, Authentication authentication) {
-        return projectRepository.existsByIdAndOwnerId(projectId, authentication.getName());
-    }
-
     public boolean canUpdateProject(Long projectId, Authentication authentication) {
         return projectRepository.existsByIdAndOwnerId(projectId, authentication.getName());
     }
 
-    private boolean isOwner(Project project, Authentication authentication) {
-        return project.getOwnerId().equals(authentication.getName());
+    public boolean canCreateAgileBoards(Long projectId, Authentication authentication) {
+        return projectRepository.existsByIdAndOwnerId(projectId, authentication.getName());
     }
 }
