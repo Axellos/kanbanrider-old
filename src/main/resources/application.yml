@@ -3,6 +3,9 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
 
   datasource:
     url: ${DB_URL:jdbc:postgresql://postgres_main/kanbanrider}

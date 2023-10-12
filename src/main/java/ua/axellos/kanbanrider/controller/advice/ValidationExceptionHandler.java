@@ -18,9 +18,9 @@ public class ValidationExceptionHandler {
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException exception) {
         Map<String, String> responseBody = new HashMap<>();
 
-        exception.getBindingResult().getAllErrors().forEach(error -> {
-            responseBody.put(((FieldError) error).getField(), error.getDefaultMessage());
-        });
+        exception.getBindingResult()
+                .getAllErrors()
+                .forEach(error -> responseBody.put(((FieldError) error).getField(), error.getDefaultMessage()));
 
         return validationFailedResponse(responseBody);
     }
@@ -31,8 +31,9 @@ public class ValidationExceptionHandler {
     }
 
     private ResponseEntity<?> validationFailedResponse(Map<String, String> body) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .header("X-Status-Reason", "Validation failed")
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(body);
+
+        //TODO: Add error structure
     }
 }

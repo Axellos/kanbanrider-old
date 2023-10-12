@@ -3,19 +3,20 @@ package ua.axellos.kanbanrider.access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import ua.axellos.kanbanrider.model.Project;
 import ua.axellos.kanbanrider.repository.ProjectRepository;
 
 @Component
 public class ProjectAccessManager {
 
     @Autowired
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
+
+    public boolean canAccess(Long projectId, Authentication authentication) {
+        return projectRepository.existsByIdAndOwnerId(projectId, authentication.getName());
+    }
 
     public boolean canUpdateProject(Long projectId, Authentication authentication) {
-        return projectRepository.findById(projectId)
-                .map(project -> isOwner(project, authentication))
-                .orElse(false);
+        return projectRepository.existsByIdAndOwnerId(projectId, authentication.getName());
     }
 
     private boolean isOwner(Project project, Authentication authentication) {
