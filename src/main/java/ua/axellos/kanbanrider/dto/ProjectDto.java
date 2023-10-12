@@ -13,6 +13,8 @@ import javax.validation.constraints.Size;
 @Setter
 public class ProjectDto {
 
+    private Long id;
+
     @Size(max = 255)
     @NotNull
     @NotBlank
